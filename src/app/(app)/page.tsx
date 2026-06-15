@@ -2,6 +2,9 @@ import { formatDistanceToNow } from "date-fns";
 import { AlertTriangle, CheckCircle2, Clock3 } from "lucide-react";
 
 import { getRecentWatchRuns } from "@/app/actions/watch-data";
+import { StatusRefreshButton } from "@/app/(app)/status-refresh-button";
+
+export const dynamic = "force-dynamic";
 
 function statusColor(status: string) {
   if (status === "pass") return "text-[var(--color-primary)]";
@@ -15,11 +18,14 @@ export default async function StatusPage() {
 
   return (
     <div className="space-y-8">
-      <section>
-        <h1 className="text-2xl font-semibold">Platform status</h1>
-        <p className="mt-1 text-sm text-[var(--color-muted-foreground)]">
-          Synthetic smoke checks against prod — health, canned chat, and LLM path.
-        </p>
+      <section className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-semibold">Platform status</h1>
+          <p className="mt-1 text-sm text-[var(--color-muted-foreground)]">
+            Synthetic smoke checks against prod — health, canned chat, and LLM path.
+          </p>
+        </div>
+        <StatusRefreshButton />
       </section>
 
       <section className="rounded-xl border border-[var(--color-border)] bg-[var(--color-card)] p-6">
