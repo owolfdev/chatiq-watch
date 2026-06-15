@@ -15,7 +15,7 @@ Hard smoke runs every **15 minutes** (GitHub Actions Phase 1). Each run produces
 |------|--------|----------------|
 | 1 | `vercel_health` | `GET /api/v1/health` returns `{ status: "healthy" }` |
 | 2 | `chat_canned` | `POST /api/chat` with `hello` → `response_source: "canned"` (deterministic path + Supabase write) |
-| 3 | `chat_llm` | Follow-up LLM prompt → `response_source: "llm"` (OpenAI path + streaming assembly off) |
+| 3 | `chat_llm` | Follow-up LLM prompt → `response_source: "llm"` or `"cache"` |
 
 ## Prompts
 

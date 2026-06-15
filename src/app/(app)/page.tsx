@@ -52,6 +52,9 @@ export default async function StatusPage() {
                   {latest.anomaly_count > 0
                     ? ` · ${latest.anomaly_count} anomal${latest.anomaly_count === 1 ? "y" : "ies"}`
                     : ""}
+                  {latest.failed_signals.length > 0
+                    ? ` (${latest.failed_signals.join(", ")})`
+                    : ""}
                 </p>
               </>
             ) : (
@@ -82,7 +85,7 @@ export default async function StatusPage() {
                   <th className="px-4 py-3 font-medium">Status</th>
                   <th className="px-4 py-3 font-medium">When</th>
                   <th className="px-4 py-3 font-medium">Duration</th>
-                  <th className="px-4 py-3 font-medium">Anomalies</th>
+                  <th className="px-4 py-3 font-medium">Failed checks</th>
                   <th className="px-4 py-3 font-medium">Run ID</th>
                 </tr>
               </thead>
@@ -101,7 +104,13 @@ export default async function StatusPage() {
                       })}
                     </td>
                     <td className="px-4 py-3">{run.duration_ms}ms</td>
-                    <td className="px-4 py-3">{run.anomaly_count}</td>
+                    <td className="px-4 py-3 text-[var(--color-muted-foreground)]">
+                      {run.failed_signals.length > 0
+                        ? run.failed_signals.join(", ")
+                        : run.anomaly_count > 0
+                          ? `${run.anomaly_count}`
+                          : "—"}
+                    </td>
                     <td className="px-4 py-3 font-mono text-xs text-[var(--color-muted-foreground)]">
                       {run.run_id}
                     </td>

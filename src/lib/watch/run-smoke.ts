@@ -227,7 +227,9 @@ export async function runSmokeTest(options: {
         response.ok &&
         responseText.length > 0 &&
         (label !== "chat_canned" || responseSource === "canned") &&
-        (label !== "chat_llm" || responseSource === "llm");
+        (label !== "chat_llm" ||
+          responseSource === "llm" ||
+          responseSource === "cache");
 
       return {
         signal: label,

@@ -13,6 +13,7 @@ export type WatchRunSummary = {
   finished_at: string;
   duration_ms: number;
   anomaly_count: number;
+  failed_signals: string[];
 };
 
 export async function getRecentWatchRuns(limit = 20): Promise<WatchRunSummary[]> {
@@ -33,17 +34,22 @@ export async function getRecentWatchRuns(limit = 20): Promise<WatchRunSummary[]>
   const runIds = runs.map((run) => run.id);
   const { data: anomalies } = await supabase
     .from("bot_synthetic_anomalies")
-    .select("run_id")
+    .select("run_id, signal")
     .in("run_id", runIds);
 
   const counts = new Map<string, number>();
+  const signalsByRun = new Map<string, string[]>();
   for (const row of anomalies ?? []) {
     counts.set(row.run_id, (counts.get(row.run_id) ?? 0) + 1);
+    const existing = signalsByRun.get(row.run_id) ?? [];
+    existing.push(row.signal);
+    signalsByRun.set(row.run_id, existing);
   }
 
   return runs.map((run) => ({
     ...run,
     anomaly_count: counts.get(run.id) ?? 0,
+    failed_signals: signalsByRun.get(run.id) ?? [],
   }));
 }
 
