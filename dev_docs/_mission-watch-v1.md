@@ -1,7 +1,7 @@
 # Mission: Watch v1 — synthetic monitoring + owner alerts
 
-Last updated: 2026-06-15  
-Status: **In progress** — Phase A PWA scaffold landed; deploy + env + push opt-in pending.  
+Last updated: 2026-06-16  
+Status: **In progress** — deployed at `watch.chatiq.io`; v1 closeout + Phase B stats next.  
 Owner: Engineering (platform)
 
 ## Decisions (locked)
@@ -50,7 +50,7 @@ Out of scope for v1: per-tenant synthetic profiles, LINE live webhook replay, mo
 
 - [x] **Admin: Create team** (platform admin only) in `chatiq`.
 - [x] **Admin: Create Watch canary** on active team (one per team, slug `watch-canary`).
-- [ ] Create **ChatIQ Ops** team on prod; canary + runner API key.
+- [x] Create **ChatIQ Ops** team on prod; canary + runner API key.
 - [x] Document Support vs Ops team usage (`dev_docs/data-isolation.md`).
 - [x] Synthetic conversation marker in `chatiq` chat path (runner sends `source_detail`; API already persists).
 
@@ -58,10 +58,10 @@ Out of scope for v1: per-tenant synthetic profiles, LINE live webhook replay, mo
 
 - [ ] Port / rewrite `thai-stress-sim.mjs` patterns into `chatiq-watch/scripts/`.
 - [x] `run-smoke.mjs` — hard checks only (health + 2 deterministic chat turns).
-- [ ] `run-stress.mjs` — multi-turn + handoff scenario (daily).
-- [ ] `analyze-run.mjs` — anomaly scoring (port `analyze-thai-stress.mjs`).
-- [ ] `notify.mjs` — push on hard fail; configurable soft threshold.
-- [ ] GitHub Actions scheduled workflow (Phase 1 scheduler). *(workflow file added; secrets + repo hookup pending)*
+- [ ] `run-stress.mjs` — multi-turn + handoff scenario (daily). **Deferred post v1.**
+- [ ] `analyze-run.mjs` — anomaly scoring (port `analyze-thai-stress.mjs`). **Deferred.**
+- [x] Push on hard fail (in `/api/cron/smoke`; no separate `notify.mjs`).
+- [x] Vercel Cron scheduler (`vercel.json`). GitHub Actions workflow removed.
 
 ### WS-C — Data & API
 
@@ -76,7 +76,7 @@ Out of scope for v1: per-tenant synthetic profiles, LINE live webhook replay, mo
 - [x] Pages: `/` status, `/settings` (push).
 - [x] Push subscribe/unsubscribe routes (Watch-specific table).
 - [x] Vercel cron route `/api/cron/smoke` + push on hard fail.
-- [ ] Deploy to `watch.chatiq.io` with env vars + verify cron.
+- [x] Deploy to `watch.chatiq.io` with env vars + verify cron.
 
 ### WS-E — Hygiene (optional before v1 close)
 
@@ -100,6 +100,15 @@ Out of scope for v1: per-tenant synthetic profiles, LINE live webhook replay, mo
 - `chatiq`: `npm run typecheck` + `npm run test:gtm-ws4` after any synthetic-marker change.
 
 ## 6) Progress Log
+
+### 2026-06-16 — Deployed + cleanup
+
+- Live at **`watch.chatiq.io`**: Vercel cron, smoke pass (cache fix), refresh button on Status.
+- Removed duplicate **GitHub Actions** smoke workflow (Vercel cron is canonical).
+- Documented **Inbox isolation**: team-scoped, not synthetic-filtered — Support team = safe.
+- **Daily stress** explicitly deferred (post v1); not required for DoD.
+- **Approx. DoD:** ~75% — verify Inbox on Support team, optional push test, then Phase B stats.
+- **Next:** Phase B fleet/client health stats dashboard + API.
 
 ### 2026-06-15 — Phase A Watch PWA
 

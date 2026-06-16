@@ -30,7 +30,25 @@ Runner chat requests set:
 }
 ```
 
-Use this field to filter Inbox lists and analytics. TTL cleanup on Ops-team synthetic rows is optional hygiene (WS-E) — not the primary isolation boundary.
+Use this field to filter analytics and future Inbox filters. **Inbox v1 does not auto-hide synthetic rows** — team separation is the isolation boundary.
+
+## Inbox (Support) — is it safe?
+
+**Yes, if your active team is Support** (e.g. Oliver's Team), not ChatIQ Ops.
+
+Inbox loads conversations for the **active team only** (`getUserTeamId` + team cookie on `.chatiq.io`). Synthetic smoke writes to **`watch-canary` on the Ops team**, so those rows **do not appear** while Support is selected.
+
+| Situation | Inbox shows synthetic? |
+|-----------|------------------------|
+| Active team = **Support** | **No** — expected daily use |
+| Active team = **ChatIQ Ops** | **Yes** — useful for debugging smoke |
+| Same login, switched team in main app | Follows **active team** everywhere |
+
+**Not a bug:** switching to Ops in the team switcher will show canary conversations.
+
+**Watch push vs Inbox push:** separate tables. Smoke failures alert via **Watch → Alerts** only, not Inbox conversation notifications.
+
+**Optional hygiene (later):** TTL script to delete old Ops-team synthetic conversations so Ops Inbox stays tidy — not required for Support isolation.
 
 ## API keys
 

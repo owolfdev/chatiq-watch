@@ -48,11 +48,11 @@ Optional tuning:
 | `MAX_RETRIES` | `1` | Retry count |
 | `DRY_RUN` | `0` | Set `1` for local dry run |
 
-## 3) GitHub Actions (optional backup)
+## 3) GitHub Actions (removed)
 
-GitHub workflow in `.github/workflows/watch-smoke.yml` is optional if you use **Vercel Cron** (recommended).
+Smoke scheduling uses **Vercel Cron** only (`vercel.json` → `/api/cron/smoke`). No GitHub workflow in this repo.
 
-## 4) Vercel deploy + cron (recommended)
+## 4) Vercel deploy + cron (production)
 
 1. Create Vercel project from `chatiq-watch/` → domain `watch.chatiq.io`
 2. Set environment variables (same as `.env.example`):

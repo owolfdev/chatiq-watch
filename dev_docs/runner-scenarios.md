@@ -1,6 +1,6 @@
 # Watch smoke scenarios
 
-Hard smoke runs every **15 minutes** (GitHub Actions Phase 1). Each run produces one JSON report and exit code `0` (pass) or `1` (fail).
+Hard smoke runs every **15 minutes** (Vercel Cron → `/api/cron/smoke`). Each run produces one JSON report and exit code `0` (pass) or `1` (fail).
 
 ## Budget guardrails
 
@@ -40,11 +40,18 @@ Every chat request includes:
 
 ## Out of scope (v1 smoke)
 
-- Daily stress / multi-turn Thai scenarios (see `run-stress.mjs` — not implemented yet)
+- Daily stress / multi-turn Thai scenarios — **deferred** (see below)
 - LINE / Twilio webhook replay
 - Per-tenant profiles
-- Client stats (containment, FRT) — Phase 2+ Watch dashboard
+- Client stats (containment, FRT) — Phase B+ Watch dashboard
 
-## Daily stress (planned)
+## Daily stress (deferred — post v1 close)
 
-Port patterns from `chatiq/scripts/thai-stress-sim.mjs` into `run-stress.mjs` with higher turn counts and anomaly scoring via `analyze-run.mjs`.
+Port patterns from `chatiq/scripts/thai-stress-sim.mjs` into `run-stress.mjs`:
+
+- **Schedule:** once per day (separate Vercel cron or manual)
+- **Scope:** multi-turn Thai + handoff paths on Ops canary only
+- **Alerts:** same hard-fail push rules; optional soft scoring via `analyze-run.mjs`
+- **Budget:** higher turn cap than smoke — tune before enabling cron
+
+Not required for v1 DoD. Enable when smoke is stable for a week and you want deeper regression signal.
