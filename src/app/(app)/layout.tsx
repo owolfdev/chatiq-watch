@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Activity, Bell, LogOut, Radar } from "lucide-react";
+import { Activity, BarChart3, Bell, LogOut, Radar } from "lucide-react";
 
 import { signOutAction } from "@/app/actions/auth";
 import { requireWatchAdmin } from "@/lib/auth/require-watch-admin";
@@ -31,6 +31,13 @@ export default async function AppLayout({
             >
               <Activity className="h-4 w-4" />
               Status
+            </Link>
+            <Link
+              href="/stats"
+              className="inline-flex items-center gap-1 rounded-md px-3 py-2 hover:bg-[var(--color-card)]"
+            >
+              <BarChart3 className="h-4 w-4" />
+              Stats
             </Link>
             <Link
               href="/settings"
