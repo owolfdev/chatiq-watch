@@ -1,12 +1,14 @@
 # ChatIQ Watch — dev docs
 
-Last updated: 2026-06-15
+Last updated: 2026-10-28
+
+**What’s next (this repo):** [`../ROADMAP.md`](../ROADMAP.md).
 
 ## Execution queue
 
 ### Current
 
-1. **Primary mission:** [`_mission-watch-v1.md`](./_mission-watch-v1.md) — platform health alerts (Vercel, Supabase, LLM, chat).
+1. **Primary mission:** [`_mission-watch-v1.md`](./_mission-watch-v1.md) — platform health alerts (Vercel, Supabase, LLM, chat). Phase B stats is next per ROADMAP.
 2. **Signals:** [`watch-signals.md`](./watch-signals.md) — what we monitor and alert on.
 3. **Architecture:** [`architecture.md`](./architecture.md) — boundaries with `chatiq`, runner, data model, API surface.
 4. **Overview:** [`overview.md`](./overview.md) — why Watch exists and how it relates to Inbox / main admin.
